@@ -11,6 +11,17 @@ firebase.initializeApp(config);
 // Getting reference for firebase database
 var database = firebase.database();
 
+var allTrains = [];
+
+// var dummyTrainName = {
+// 	trainName: "dummyTrain",
+// 	destination: "",
+// 	startTime: 0,
+// 	frequency: ""
+// }; 
+
+// database.ref("/dummy").push(dummyTrainName);
+
 // On button click to add new train
 $("#addTrain").on("click", function(event) {
 	event.preventDefault();
@@ -18,10 +29,9 @@ $("#addTrain").on("click", function(event) {
 	// Capture input values in variables
 	var trainName = $("#trainName").val().trim();
 	var destination = $("#destination").val().trim();
-	var startTime = moment($("#firstTrainTime").val().trim()).format('hh:mm');
-	var frequency = moment($("#frequency").val().trim()).format('mm');
-	console.log("received values");
-	console.log(trainName + destination + startTime + frequency);
+	var startTime = $("#firstTrainTime").val().trim();
+	var frequency = $("#frequency").val().trim();
+	console.log("Data captured from input field " +trainName + destination + startTime + frequency);
 
 	// Creating an object with variables
 	var newTrain = {
@@ -33,6 +43,12 @@ $("#addTrain").on("click", function(event) {
 
 	// Adding information to database
 	database.ref().push(newTrain);
+
+	console.log("New Train Details");
+	console.log(newTrain.trainName);
+	console.log(newTrain.destination);
+	console.log(newTrain.startTime);
+	console.log(newTrain.frequency);
 
 	// Inform user of new train addition
 	alert("New train successfully added");
@@ -46,31 +62,54 @@ $("#addTrain").on("click", function(event) {
 	// return false;
 });
 
+function updateUIWithData(childSnapshotVal) {
+	
+		var trainName = childSnapshotVal.trainName;
+		var destination = childSnapshotVal.destination;
+		var frequency = childSnapshotVal.frequency;
+		// Ensuring that the start time has not passed by
+		var startTime = childSnapshotVal.startTime;
+
+		var startTimeCalculated = moment(startTime, "HH:mm").subtract(1, "years");
+		// console.log(startTimeCalculated);
+
+		// // Getting current time
+		var currentTime = moment();
+		// console.log("MOMENT: " + currentTime);
+		// console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
+
+		// // Total minutes = current time - start time
+		var totalMinutesPast = moment().diff(moment(startTimeCalculated), "minutes");
+		// console.log("DIFFERENCE IN MINS: "+ totalMinutesPast);
+
+		// // Calculating minutesAway and nextArrivalTime
+		// // remainder = total minutes % frequency
+		var moduloRemainder = totalMinutesPast % frequency;
+		// console.log("REMAINDER: " + moduloRemainder);
+		// // minutesAway = frequency - remainder
+		var minutesToArrival = frequency - moduloRemainder;
+		// console.log("MINUTES AWAY: " + minutesToArrival);
+		// // nextArrivalTime = current time + minutesAway
+		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
+		// console.log("WITHOUT FORMAT: " + nextArrivalTime);
+		// console.log("NEXT ARRIVAL TIME: " + moment(nextArrivalTime).format("HH:mm A"));
+		$("#trainSchedule> tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + moment(nextArrivalTime).format("hh:mm A") + "</td><td>" + minutesToArrival + "</td></tr>");
+
+}
+
 database.ref().on("child_added", function(childSnapshot) {
-	console.log(childSnapshot.val());
-
-	var trainName = childSnapshot.val().name;
-	var destination = childSnapshot.val().destination;
-	var frequency = childSnapshot.val().frequency;
-	// Ensuring that the start time has not passed by
-	var startTime = moment(childSnapshot.val().startTime).subtract(1, "years");
-	console.log(startTime);
-
-	// Getting current time
-	var currentTime = moment().format();
-	console.log(currentTime);
-
-	// Total minutes = current time - start time
-	var totalMinutesPast = moment(startTime).diff(currentTime, "minutes");
-	console.log(totalMinutesPast);
-
-	// Calculating minutesAway and nextArrivalTime
-	// remainder = total minutes % frequency
-	var moduloRemainder = totalMinutesPast % frequency;
-	// minutesAway = frequency - remainder
-	var minutesToArrival = frequency - moduloRemainder;
-	// nextArrivalTime = current time + minutesAway
-	var nextArrivalTime = moment().add(minutesToArrival, "minutes");
-
-	$("#trainSchedule> tbody").append("<tr><td>" + trainName + "<td><td>" + destination + "</td><td>" + frequency + "</td><td>" + nextArrivalTime + "</td><td>" + minutesToArrival + "</td></tr>");
+	console.log("Child snapshot "+JSON.stringify(childSnapshot.val()));
+	updateUIWithData(childSnapshot.val());
+	if(! allTrains.includes(childSnapshot.val())) {
+		allTrains.push(childSnapshot.val());
+	}
 });
+
+var interval = setInterval(executeUIUpdateLogicEverySecond, 60000);
+
+function executeUIUpdateLogicEverySecond() {
+	$("#trainSchedule> tbody").empty();
+	allTrains.forEach(function(element) {
+    	updateUIWithData(element);
+	});
+}
