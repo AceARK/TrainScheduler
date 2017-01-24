@@ -13,42 +13,62 @@ var database = firebase.database();
 
 var allTrains = [];
 
+$("#firstTrainTime").on("change", function() {
+	var regExp = new RegExp($("#firstTrainTime").attr('pattern'));
+	var value = $("#firstTrainTime").val();
+	if(!regExp.test(value)) {
+		$("#firstTrainTime").addClass("remove-default").addClass("wrong-format");
+	}else {
+		$("#firstTrainTime").removeClass("remove-default").removeClass("wrong-format");
+	}
+});
+
 // On button click to add new train
 $("#addTrain").on("click", function(event) {
 	event.preventDefault();
 
-	// Capture input values in variables
-	var trainName = $("#trainName").val().trim();
-	var destination = $("#destination").val().trim();
-	var startTime = $("#firstTrainTime").val().trim();
-	var frequency = $("#frequency").val().trim();
-	console.log("Data captured from input field " +trainName + destination + startTime + frequency);
+	var regExp = new RegExp($("#firstTrainTime").attr('pattern'));
+	var value = $("#firstTrainTime").val();
+	if(!regExp.test(value)) {
+		$("#firstTrainTime").toggleClass("wrong-format");
+		alert("Wrong format entered. Enter HH:mm military format.");
+		return;
+	}else {
 
-	// Creating an object with variables
-	var newTrain = {
-		trainName: trainName,
-		destination: destination,
-		startTime: startTime,
-		frequency: frequency
-	};
+		// Capture input values in variables
+		var trainName = $("#trainName").val().trim();
+		var destination = $("#destination").val().trim();
+		var startTime = $("#firstTrainTime").val().trim();
+		var frequency = $("#frequency").val().trim();
+		console.log("Data captured from input field " +trainName + destination + startTime + frequency);
 
-	// Adding information to database
-	database.ref().push(newTrain);
+		// Creating an object with variables
+		var newTrain = {
+			trainName: trainName,
+			destination: destination,
+			startTime: startTime,
+			frequency: frequency
+		};
 
-	console.log("New Train Details");
-	console.log(newTrain.trainName);
-	console.log(newTrain.destination);
-	console.log(newTrain.startTime);
-	console.log(newTrain.frequency);
+		// Adding information to database
+		database.ref().push(newTrain);
 
-	// Inform user of new train addition
-	alert("New train successfully added");
+		console.log("New Train Details");
+		console.log(newTrain.trainName);
+		console.log(newTrain.destination);
+		console.log(newTrain.startTime);
+		console.log(newTrain.frequency);
 
-	// Clear all input fields 
-	$("#trainName").val("");
-	$("#destination").val("");
-	$("#firstTrainTime").val("");
-	$("#frequency").val("");
+		// Inform user of new train addition
+		alert("New train successfully added");
+
+		// Clear all input fields 
+		$("#trainName").val("");
+		$("#destination").val("");
+		$("#firstTrainTime").val("");
+		$("#frequency").val("");
+
+	}
 
 });
 
