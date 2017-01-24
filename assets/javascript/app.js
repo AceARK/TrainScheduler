@@ -73,8 +73,8 @@ function updateUIWithData(childSnapshotVal) {
 		var minutesToArrival = frequency - moduloRemainder;
 		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
-		
-		$("#tableBody").append("<tr id=""><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + moment(nextArrivalTime).format("hh:mm A") + "</td><td>" + minutesToArrival + "</td></tr>");
+		// Change below line to multiple lines to add each input separately for better manipulation. To add attributes to all input together.
+		$("#tableBody").append("<tr><td><input disabled='true' type='text' value='" + trainName + "'></td><td>" + destination + "</td><td>" + frequency + "</td><td>" + moment(nextArrivalTime).format("hh:mm A") + "</td><td>" + minutesToArrival + "</td></tr>");
 
 }
 
