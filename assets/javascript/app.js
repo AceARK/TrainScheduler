@@ -81,8 +81,12 @@ function updateUIWithData(childSnapshotVal) {
 
 $("#tableBody").on("click", ".edit", function() {
 	console.log("Entering Edit button click function.");
+	var currentArrivalTime = $(this).parent().parent().find("td> .arrivalTime").val();
 	console.log("Finding parent of parent of this " + $(this).parent().parent().find("td> input"));
 	$(this).parent().parent().find("td> input").attr('disabled', false).removeClass('non-editable');
+	console.log(moment(currentArrivalTime, "HH:mm A").format("HH:mm:ss"));
+	formattedToDisplayTime = moment(currentArrivalTime, "HH:mm A").format("HH:mm");
+	$(this).parent().parent().find("td> .arrivalTime").attr('value', formattedToDisplayTime);
 	$(this).parent().parent().find("td> .arrivalTime").attr('type','time');
 	$(this).hide();
 	$(this).parent().parent().find(".update, .remove").show();
