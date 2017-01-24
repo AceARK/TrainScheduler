@@ -13,8 +13,6 @@ var database = firebase.database();
 
 var allTrains = [];
 
-$('input#firstTrainTime').timepicker({ timeFormat: 'HH:mm' });
-
 // On button click to add new train
 $("#addTrain").on("click", function(event) {
 	event.preventDefault();
