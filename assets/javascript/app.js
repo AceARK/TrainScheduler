@@ -83,6 +83,7 @@ $("#tableBody").on("click", ".edit", function() {
 	console.log("Entering Edit button click function.");
 	console.log("Finding parent of parent of this " + $(this).parent().parent().find("td> input"));
 	$(this).parent().parent().find("td> input").attr('disabled', false).removeClass('non-editable');
+	$(this).hide();
 });
 
 database.ref().on("child_added", function(childSnapshot) {
