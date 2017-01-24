@@ -17,9 +17,9 @@ $("#firstTrainTime").on("change", function() {
 	var regExp = new RegExp($("#firstTrainTime").attr('pattern'));
 	var value = $("#firstTrainTime").val();
 	if(!regExp.test(value)) {
-		$("#firstTrainTime").addClass("remove-default").addClass("wrong-format");
+		$(this).addClass("remove-default").addClass("wrong-format");
 	}else {
-		$("#firstTrainTime").removeClass("remove-default").removeClass("wrong-format");
+		$(this).removeClass("remove-default").removeClass("wrong-format");
 	}
 });
 
@@ -105,12 +105,8 @@ function updateUIWithData(childSnapshotVal) {
 // Update data into firebase on each button press
 // On clicking out of current <tr>, change back to normal display
 
-// Currently working on -
-// First Train Time text field html type time shows AM/PM. Avoid that, and use military format
-// No solution found for HTML manipulation
-// 1 Solution found with bootstrap widget
-
 // To Do After -
+// Change alert to something else (modal etc)
 // Authentication of accounts. 
 // Admin users sign in using Github/Google. Other users cannot edit/add trains.
 
