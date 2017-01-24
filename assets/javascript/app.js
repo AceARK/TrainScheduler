@@ -75,13 +75,15 @@ function updateUIWithData(childSnapshotVal) {
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
 		// Change below line to multiple lines to add each input separately for better manipulation. To add attributes to all input together.
 		$("#tableBody").append("<tr><td><input type='text' value='" + trainName + "'></td><td><input type='text' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='edit'>Edit</button><button type='submit' class='update'>Update</button><button type='submit' class='remove'>Remove</button></td></tr>");
-		$("td> input").attr('disabled', 'true');
+		$("td> input").attr('disabled', true).addClass('non-editable');
 		$(".update, .remove").hide();
 }
 
 $("#tableBody").on("click", ".edit", function() {
-	$("td> input").attr('disabled', 'false');
-})
+	console.log("Entering Edit button click function.");
+	console.log("Finding parent of parent of this " + $(this).parent().parent().find("td> input"));
+	$(this).parent().parent().find("td> input").attr('disabled', false).removeClass('non-editable');
+});
 
 database.ref().on("child_added", function(childSnapshot) {
 	console.log("Child snapshot "+JSON.stringify(childSnapshot.val()));

@@ -1,8 +1,9 @@
-td> input {
+/*td> input {
 	border: none;
 	background-color: transparent;
-}
+}*/
 
-td> input: focus {
-	text-decoration: none;
+.non-editable {
+	border: none;
+	background-color: transparent;
 }
