@@ -79,6 +79,10 @@ function updateUIWithData(childSnapshotVal) {
 		$(".update, .remove").hide();
 }
 
+$("#tableBody").on("click", ".edit", function() {
+	$("td> input").attr('disabled', 'false');
+})
+
 database.ref().on("child_added", function(childSnapshot) {
 	console.log("Child snapshot "+JSON.stringify(childSnapshot.val()));
 	updateUIWithData(childSnapshot.val());
