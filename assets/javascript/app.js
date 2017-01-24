@@ -13,15 +13,6 @@ var database = firebase.database();
 
 var allTrains = [];
 
-// var dummyTrainName = {
-// 	trainName: "dummyTrain",
-// 	destination: "",
-// 	startTime: 0,
-// 	frequency: ""
-// }; 
-
-// database.ref("/dummy").push(dummyTrainName);
-
 // On button click to add new train
 $("#addTrain").on("click", function(event) {
 	event.preventDefault();
@@ -59,7 +50,6 @@ $("#addTrain").on("click", function(event) {
 	$("#firstTrainTime").val("");
 	$("#frequency").val("");
 
-	// return false;
 });
 
 function updateUIWithData(childSnapshotVal) {
@@ -71,28 +61,19 @@ function updateUIWithData(childSnapshotVal) {
 		var startTime = childSnapshotVal.startTime;
 
 		var startTimeCalculated = moment(startTime, "HH:mm").subtract(1, "years");
-		// console.log(startTimeCalculated);
 
 		// // Getting current time
 		var currentTime = moment();
-		// console.log("MOMENT: " + currentTime);
-		// console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
-
+	
 		// // Total minutes = current time - start time
 		var totalMinutesPast = moment().diff(moment(startTimeCalculated), "minutes");
-		// console.log("DIFFERENCE IN MINS: "+ totalMinutesPast);
-
-		// // Calculating minutesAway and nextArrivalTime
-		// // remainder = total minutes % frequency
+	
 		var moduloRemainder = totalMinutesPast % frequency;
-		// console.log("REMAINDER: " + moduloRemainder);
-		// // minutesAway = frequency - remainder
+	
 		var minutesToArrival = frequency - moduloRemainder;
-		// console.log("MINUTES AWAY: " + minutesToArrival);
-		// // nextArrivalTime = current time + minutesAway
+		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
-		// console.log("WITHOUT FORMAT: " + nextArrivalTime);
-		// console.log("NEXT ARRIVAL TIME: " + moment(nextArrivalTime).format("HH:mm A"));
+		
 		$("#trainSchedule> tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + moment(nextArrivalTime).format("hh:mm A") + "</td><td>" + minutesToArrival + "</td></tr>");
 
 }
