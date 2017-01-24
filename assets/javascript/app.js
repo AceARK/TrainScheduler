@@ -13,12 +13,17 @@ var database = firebase.database();
 
 var allTrains = [];
 
-$("#firstTrainTime").on("change", function() {
-	var regExp = new RegExp($("#firstTrainTime").attr('pattern'));
-	var value = $("#firstTrainTime").val();
-	if(!regExp.test(value)) {
-		$(this).addClass("remove-default").addClass("wrong-format");
-	}else {
+$("#firstTrainTime").on("blur", function() {
+	if($("#firstTrainTime").val() !== "") {
+		var regExp = new RegExp($("#firstTrainTime").attr('pattern'));
+		var value = $("#firstTrainTime").val();
+		if(!regExp.test(value)) {
+			$(this).addClass("remove-default").addClass("wrong-format");
+		}else {
+			$(this).removeClass("remove-default").removeClass("wrong-format");
+		}
+	}
+	else{
 		$(this).removeClass("remove-default").removeClass("wrong-format");
 	}
 });
