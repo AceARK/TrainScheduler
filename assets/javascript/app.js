@@ -74,7 +74,7 @@ function updateUIWithData(childSnapshotVal) {
 		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
 		
-		$("#trainSchedule> tbody").append("<tr><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + moment(nextArrivalTime).format("hh:mm A") + "</td><td>" + minutesToArrival + "</td></tr>");
+		$("#tableBody").append("<tr id=""><td>" + trainName + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + moment(nextArrivalTime).format("hh:mm A") + "</td><td>" + minutesToArrival + "</td></tr>");
 
 }
 
@@ -86,10 +86,10 @@ database.ref().on("child_added", function(childSnapshot) {
 	}
 });
 
-var interval = setInterval(executeUIUpdateLogicEverySecond, 60000);
+var interval = setInterval(updateUIEveryMinute, 60000);
 
-function executeUIUpdateLogicEverySecond() {
-	$("#trainSchedule> tbody").empty();
+function updateUIEveryMinute() {
+	$("#tableBody").empty();
 	allTrains.forEach(function(element) {
     	updateUIWithData(element);
 	});
