@@ -13,6 +13,8 @@ var database = firebase.database();
 
 var allTrains = [];
 
+$('input#firstTrainTime').timepicker({ timeFormat: 'HH:mm' });
+
 // On button click to add new train
 $("#addTrain").on("click", function(event) {
 	event.preventDefault();
@@ -78,6 +80,22 @@ function updateUIWithData(childSnapshotVal) {
 		$("td> input").attr('disabled', true).addClass('non-editable');
 		$(".update, .remove").hide();
 }
+
+
+// To Do - 
+// Configure Update and Remove button events
+// Update data into firebase on each button press
+// On clicking out of current <tr>, change back to normal display
+
+// Currently working on -
+// First Train Time text field html type time shows AM/PM. Avoid that, and use military format
+// No solution found for HTML manipulation
+// 1 Solution found with bootstrap widget
+
+// To Do After -
+// Authentication of accounts. 
+// Admin users sign in using Github/Google. Other users cannot edit/add trains.
+
 
 $("#tableBody").on("click", ".edit", function() {
 	console.log("Entering Edit button click function.");
