@@ -17,6 +17,8 @@ var allTrains = [];
 
 var interval;
 
+$("#signOut").hide();
+
 $("#signInWithGithub").on("click", function(){
 
 	firebase.auth().signInWithPopup(provider).then(function(result) {
@@ -38,7 +40,31 @@ $("#signInWithGithub").on("click", function(){
 	  var credential = error.credential;
 	  console.log("Error - " + errorCode + "  " + errorMessage + "  " + email + "  " + credential);
 
-	  // ...
+	  $("#signOut").show();
+	  $("#signInWithGoogle, #signInWithGithub").hide();
+
+	  // Observer on Auth to see if user has really been signed in
+	  var user = firebase.auth().currentUser;
+
+		if (user) {
+		  console.log("User signed in.");
+		} else {
+		  console.log("User hasn't been signed in.");
+		}
+
+		// Getting provider-specific user info
+		var user = firebase.auth().currentUser;
+
+			if (user != null) {
+			  user.providerData.forEach(function (profile) {
+			    console.log("Sign-in provider: "+profile.providerId);
+			    console.log("  Provider-specific UID: "+profile.uid);
+			    console.log("  Name: "+profile.displayName);
+			    console.log("  Email: "+profile.email);
+			    console.log("  Photo URL: "+profile.photoURL);
+			  });
+			}
+
 	});
 });
 
@@ -48,6 +74,9 @@ $("#signOut").on("click", function() {
 	}, function(error) {
 	  console.log("Error signing out.");
 	});
+
+	$("#signOut").hide();
+	$("#signInWithGoogle, #signInWithGithub").show();
 })
 
 $("#firstTrainTime").on("blur", function() {
