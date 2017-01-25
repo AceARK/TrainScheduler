@@ -19,7 +19,7 @@ var interval;
 
 var userName, profilePicSrc = "";
 
-$("#signOut").hide();
+$("#signOut, #welcomeName, #userPic").hide();
 
 $("#signInWithGithub").on("click", function(){
 
@@ -58,7 +58,7 @@ $("#signInWithGithub").on("click", function(){
 		$("#userName").html(userName);
 		$("#userPic").attr('src', profilePicSrc);
 
-	  $("#signOut").show();
+	  $("#signOut, #welcomeName, #userPic").show();
 	  $("#signInWithGoogle, #signInWithGithub").hide();
 
 	  // ...
@@ -87,7 +87,7 @@ $("#signOut").on("click", function() {
 	console.log("UserName " +userName + " signed out.");
 	$("#userName").html("");
 	$("#userPic").attr('src', "");
-	$("#signOut").hide();
+	$("#signOut, #welcomeName, #userPic").hide();
 	$("#signInWithGoogle, #signInWithGithub").show();
 	userName = "";
 })
