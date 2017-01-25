@@ -136,6 +136,14 @@ $("#tableBody").on("click", ".update", function() {
 
 });
 
+$("#tableBody").on("click", ".remove", function() {
+	var currentKey = $(this).parent().parent().attr('id');
+
+	database.ref("/"+currentKey).remove();
+
+	//////// call method to update UI //////
+});
+
 // To Do - 
 // Configure Update and Remove button events
 // Update data into firebase on each button press
