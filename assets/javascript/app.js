@@ -77,6 +77,14 @@ $("#signInWithGithub").on("click", function(){
 	});
 });
 
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log("Auth state changed.");
+  } else {
+    console.log("Auth state not changed.")
+  }
+});
+
 $("#signOut").on("click", function() {
 	firebase.auth().signOut().then(function() {
 	  alert("Signed out successfully.");
