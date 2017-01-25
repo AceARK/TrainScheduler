@@ -118,7 +118,21 @@ $("#tableBody").on("click", ".update", function() {
 		startTime: updatedArrivalTime
 	}
 
-	console.log(JSON.stringify(dataUpdates));
+	// console.log(JSON.stringify(dataUpdates));
+
+	database.ref("/"+currentKey).update(dataUpdates);
+
+	// database.ref().on("value", function(updatedSnapshot) {
+	// 	updateUIWithData(updatedSnapshot.val(), updatedSnapshot.key);
+	// 	// allTrains = [];
+
+	// 	if(! allTrains.includes(updatedSnapshot)) {
+	// 		allTrains.push(updatedSnapshot);
+	// 	}
+	// 	console.dir(allTrains.toString());
+	// })
+
+	///////// Configure how to display data altered in firebase ////////
 
 });
 
