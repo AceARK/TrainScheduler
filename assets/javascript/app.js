@@ -36,17 +36,19 @@ $("#signInWithGithub").on("click", function(){
 	  var email = error.email;
 	  // The firebase.auth.AuthCredential type that was used.
 	  var credential = error.credential;
-	  // console.log("Entering sign in window.");
+	  console.log("Error - " + errorCode + "  " + errorMessage + "  " + email + "  " + credential);
 
 	  // ...
 	});
 });
 
-firebase.auth().signOut().then(function() {
-  // Sign-out successful.
-}, function(error) {
-  // An error happened.
-});
+$("#signOut").on("click", function() {
+	firebase.auth().signOut().then(function() {
+	  alert("Signed out successfully.");
+	}, function(error) {
+	  console.log("Error signing out.");
+	});
+})
 
 $("#firstTrainTime").on("blur", function() {
 	if($("#firstTrainTime").val() !== "") {
