@@ -86,7 +86,9 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 $("#signOut").on("click", function() {
 	firebase.auth().signOut().then(function() {
-		firebase.auth().currentUser === null;
+		// firebase.auth().currentUser === null;
+		console.log(token);
+		token === null;
 		console.log(token);
 		console.log(firebase.auth().currentUser);
 	  alert("Signed out successfully.");
