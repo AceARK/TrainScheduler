@@ -113,8 +113,12 @@ $("#tableBody").on("click", ".update", function() {
 	// console.log("Destn. "+ updatedDestination + " time " + updatedArrivalTime + " name " + updatedTrainName);
 
 	var dataUpdates = {
-
+		trainName: updatedTrainName,
+		destination: updatedDestination,
+		startTime: updatedArrivalTime
 	}
+
+	console.log(JSON.stringify(dataUpdates));
 
 });
 
