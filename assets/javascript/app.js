@@ -51,6 +51,7 @@ $("#signInWithGithub").on("click", function(){
 		    console.log("  Photo URL: "+profile.photoURL);
 		  });
 		}
+		$("#userName").html(profile.displayName);
 
 	  $("#signOut").show();
 	  $("#signInWithGoogle, #signInWithGithub").hide();
@@ -78,6 +79,8 @@ $("#signOut").on("click", function() {
 	  console.log("Error signing out.");
 	});
 
+	console.log("UserName " +profile.displayName);
+	$("#userName").html("");
 	$("#signOut").hide();
 	$("#signInWithGoogle, #signInWithGithub").show();
 })
