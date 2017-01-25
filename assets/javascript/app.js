@@ -98,8 +98,7 @@ function updateUIWithData(childSnapshotVal,key) {
 		var minutesToArrival = frequency - moduloRemainder;
 		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
-		// console.log(key);
-		// Change below line to multiple lines to add each input separately for better manipulation. To add attributes to all input together.
+
 		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='edit'>Edit</button><button type='submit' class='update'>Update</button><button type='submit' class='remove'>Remove</button></td></tr>");
 		$("td> input").attr('disabled', true).addClass('non-editable');
 		$(".update, .remove").hide();
@@ -110,15 +109,12 @@ $("#tableBody").on("click", ".update", function() {
 	var updatedTrainName = $(this).parent().parent().find("td> .name").val();
 	var updatedDestination = $(this).parent().parent().find("td> .destination").val();
 	var updatedArrivalTime = $(this).parent().parent().find("td> .arrivalTime").val();
-	// console.log("Destn. "+ updatedDestination + " time " + updatedArrivalTime + " name " + updatedTrainName);
 
 	var dataUpdates = {
 		trainName: updatedTrainName,
 		destination: updatedDestination,
 		startTime: updatedArrivalTime
 	}
-
-	// console.log(JSON.stringify(dataUpdates));
 
 	database.ref("/"+currentKey).update(dataUpdates);
 
@@ -128,44 +124,18 @@ $("#tableBody").on("click", ".update", function() {
 database.ref().on("value", function(snapshot) {
 	
 	console.log("Entering on value function : "+JSON.stringify(snapshot.val()));
-	
-	// var updatedSnapshotData = {
-	// 	key : updatedSnapshot.key,
-	// 	value : updatedSnapshot.val()
-	// }
 
 	var json_data = snapshot.val();
 	allTrains = [];
 	for(var i in json_data) {
-		// var keyOfTrainAboutToBePushed = json_data [i][0];
-		// var updatedTrainsArray = allTrains.filter(item => item[0] !== keyOfTrainAboutToBePushed);
-		// allTrains = updatedTrainsArray;
 		allTrains.push([i, json_data [i]]);
 	}
-    
 
-
-
-	// var updatedTrainsArray = allTrains.filter(item => item.key !== updatedSnapshot.key);
-
-	// updatedTrainsArray.push(updatedSnapshotData);
-
-	// allTrains = updatedTrainsArray;
 
 	$("#tableBody").empty();
 	 allTrains.forEach(function(snapshotData) {
     	updateUIWithData(snapshotData[1],snapshotData[0]);
 	 });
-
-
-	// var snapshotData = {
-	// 	key : childSnapshot.key,
-	// 	value : childSnapshot.val()
-	// }
-	// updateUIWithData(childSnapshot.val(), childSnapshot.key);
-	// if(! allTrains.some(item => item.key === childSnapshot.key)) {
-	// 	allTrains.push(snapshotData);
-	// }
 
 });
 
@@ -176,12 +146,7 @@ $("#tableBody").on("click", ".remove", function() {
 
 });
 
-// To Do - 
-// Configure Update and Remove button events
-// Update data into firebase on each button press
-// On clicking out of current <tr>, change back to normal display
-
-// To Do After -
+// To Do -
 // Change alert to something else (modal etc)
 // Authentication of accounts. 
 // Admin users sign in using Github/Google. Other users cannot edit/add trains.
@@ -207,7 +172,6 @@ var interval = setInterval(updateUIEveryMinute, 60000);
 function updateUIEveryMinute() {
 	$("#tableBody").empty();
 	allTrains.forEach(function(snapshotData) {
-		// console.log(snapshot.key);
     	updateUIWithData(snapshotData[1],snapshotData[0]);
 	});
 }
