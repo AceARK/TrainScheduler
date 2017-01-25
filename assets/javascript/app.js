@@ -98,6 +98,7 @@ function updateUIWithData(childSnapshotVal,key) {
 		var minutesToArrival = frequency - moduloRemainder;
 		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
+		// console.log(key);
 		// Change below line to multiple lines to add each input separately for better manipulation. To add attributes to all input together.
 		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='edit'>Edit</button><button type='submit' class='update'>Update</button><button type='submit' class='remove'>Remove</button></td></tr>");
 		$("td> input").attr('disabled', true).addClass('non-editable');
@@ -111,6 +112,9 @@ $("#tableBody").on("click", ".update", function() {
 	var updatedArrivalTime = $(this).parent().parent().find("td> .arrivalTime").val();
 	// console.log("Destn. "+ updatedDestination + " time " + updatedArrivalTime + " name " + updatedTrainName);
 
+	var dataUpdates = {
+
+	}
 
 });
 
@@ -139,11 +143,11 @@ $("#tableBody").on("click", ".edit", function() {
 });
 
 database.ref().on("child_added", function(childSnapshot) {
-	console.log(childSnapshot.key);
+	// console.log(childSnapshot.key);
 	console.log("Child snapshot "+JSON.stringify(childSnapshot.val()));
 	updateUIWithData(childSnapshot.val(), childSnapshot.key);
-	if(! allTrains.includes(childSnapshot.val())) {
-		allTrains.push(childSnapshot.val());
+	if(! allTrains.includes(childSnapshot)) {
+		allTrains.push(childSnapshot);
 	}
 });
 
@@ -151,7 +155,8 @@ var interval = setInterval(updateUIEveryMinute, 60000);
 
 function updateUIEveryMinute() {
 	$("#tableBody").empty();
-	allTrains.forEach(function(element) {
-    	updateUIWithData(element);
+	allTrains.forEach(function(snapshot) {
+		// console.log(snapshot.key);
+    	updateUIWithData(snapshot.val(),snapshot.key);
 	});
 }
