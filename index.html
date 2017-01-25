@@ -2,22 +2,36 @@
 <html>
 <head>
 	<title>Train Schedule</title>
-	<!-- Bootstrap link -->
+	<!-- Bootstrap cdn -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<!-- Font awesome cdn -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<!-- Custom stylesheet link -->
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	<!-- JQuery link -->
+	<!-- JQuery cdn -->
 	<script src="https://code.jquery.com/jquery.js"></script>
-	<!-- Firebase link -->
+	<!-- Firebase cdn -->
 	<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
-	<!-- Moment.js link -->
+	<!-- Moment.js cdn -->
 	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 </head>
 <body>
 	<div class="container">
 		<div class="row text-center">
 			<div class="col-sm-12">
-				<h1>Train Schedule</h1>
+				<div class="row">
+					<div class="col-sm-1 col-sm-offset-10">
+						<button class="btn btn-success" id="signInWithGithub" data-toggle="tooltip" title="Sign in with Github"><i class="fa fa-github fa-lg" aria-hidden="true"></i> Sign In</button>
+					</div>
+					<div class="col-sm-1">
+						<button class="btn btn-success" id="signInWithGoogle" data-toggle="tooltip" title="Sign in with Google"><i class="fa fa-lg fa-google" aria-hidden="true"></i> Sign In</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12">
+						<h1>Train Schedule</h1>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">
@@ -25,9 +39,9 @@
 				<div class="panel panel-danger">
 				  	<div class="panel-heading">Current Train Schedule</div>
 				  	<div class="panel-body table-responsive">
-				    	<table class="table" id="trainSchedule">
+				    	<table class="table text-center" id="trainSchedule">
 				    		<thead>
-							    <tr>
+							    <tr class="text-center">
 							    	<th>Train Name</th>
 							        <th>Destination</th>
 							        <th>Frequency (min)</th>

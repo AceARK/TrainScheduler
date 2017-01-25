@@ -101,9 +101,9 @@ function updateUIWithData(childSnapshotVal,key) {
 		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
 
-		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='edit'>Edit</button><button type='submit' class='update'>Update</button><button type='submit' class='remove'>Remove</button></td></tr>");
+		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='edit btn btn-danger'>Edit</button><button type='submit' class='update btn btn-danger'>Update</button><button type='submit' class='remove btn btn-danger'>Remove</button><button class='undoEditClick btn btn-danger'>x</button></td></tr>");
 		$("td> input").attr('disabled', true).addClass('non-editable');
-		$(".update, .remove").hide();
+		$(".update, .remove, .undoEditClick").hide();
 }
 
 $("#tableBody").on("click", ".update", function() {
@@ -119,7 +119,6 @@ $("#tableBody").on("click", ".update", function() {
 	}
 
 	database.ref("/"+currentKey).update(dataUpdates);
-
 
 });
 
@@ -166,8 +165,13 @@ $("#tableBody").on("click", ".edit", function() {
 	$(this).parent().parent().find("td> .arrivalTime").attr('value', formattedToDisplayTime);
 	$(this).parent().parent().find("td> .arrivalTime").attr('type','time');
 	$(this).hide();
-	$(this).parent().parent().find(".update, .remove").show();
+	$(this).parent().parent().find(".update, .remove, .undoEditClick").show();
 	clearInterval(interval);
+
+});
+
+$("#tableBody").on("click", ".undoEditClick", function() {
+	updateUIEveryMinute();
 });
 
 
