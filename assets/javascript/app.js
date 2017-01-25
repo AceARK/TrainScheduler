@@ -17,7 +17,7 @@ var allTrains = [];
 
 var interval;
 
-var userName, profilePicSrc = "";
+var userName, profilePicSrc, token = "";
 
 $("#signOut, #welcomeName, #userPic").hide();
 
@@ -26,7 +26,7 @@ $("#signInWithGithub").on("click", function(){
 	firebase.auth().signInWithPopup(provider).then(function(result) {
 		console.log("Entering sign in window.");
 	  // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-	  var token = result.credential.accessToken;
+	  token = result.credential.accessToken;
 	  // The signed-in user info.
 	  var user = result.user;
 
@@ -42,7 +42,6 @@ $("#signInWithGithub").on("click", function(){
 		}
 
 		// Getting provider-specific user info
-		var user = firebase.auth().currentUser;
 
 		if (user != null) {
 		  user.providerData.forEach(function (profile) {
@@ -87,6 +86,9 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 $("#signOut").on("click", function() {
 	firebase.auth().signOut().then(function() {
+		firebase.auth().currentUser === null;
+		console.log(token);
+		console.log(firebase.auth().currentUser);
 	  alert("Signed out successfully.");
 	}, function(error) {
 	  console.log("Error signing out.");
