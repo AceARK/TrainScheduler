@@ -17,6 +17,8 @@ var allTrains = [];
 
 var interval;
 
+var userName, profilePicSrc = "";
+
 $("#signOut").hide();
 
 $("#signInWithGithub").on("click", function(){
@@ -47,11 +49,14 @@ $("#signInWithGithub").on("click", function(){
 		    console.log("Sign-in provider: "+profile.providerId);
 		    console.log("  Provider-specific UID: "+profile.uid);
 		    console.log("  Name: "+profile.displayName);
+		    userName = profile.displayName;
 		    console.log("  Email: "+profile.email);
 		    console.log("  Photo URL: "+profile.photoURL);
+		    profilePicSrc = profile.photoURL;
 		  });
 		}
-		$("#userName").html(profile.displayName);
+		$("#userName").html(userName);
+		$("#userPic").attr('src', profilePicSrc);
 
 	  $("#signOut").show();
 	  $("#signInWithGoogle, #signInWithGithub").hide();
@@ -79,10 +84,12 @@ $("#signOut").on("click", function() {
 	  console.log("Error signing out.");
 	});
 
-	console.log("UserName " +profile.displayName);
+	console.log("UserName " +userName + " signed out.");
 	$("#userName").html("");
+	$("#userPic").attr('src', "");
 	$("#signOut").hide();
 	$("#signInWithGoogle, #signInWithGithub").show();
+	userName = "";
 })
 
 $("#firstTrainTime").on("blur", function() {
