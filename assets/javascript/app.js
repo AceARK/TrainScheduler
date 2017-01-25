@@ -122,17 +122,50 @@ $("#tableBody").on("click", ".update", function() {
 
 	database.ref("/"+currentKey).update(dataUpdates);
 
-	// database.ref().on("value", function(updatedSnapshot) {
-	// 	updateUIWithData(updatedSnapshot.val(), updatedSnapshot.key);
-	// 	// allTrains = [];
 
-	// 	if(! allTrains.includes(updatedSnapshot)) {
-	// 		allTrains.push(updatedSnapshot);
-	// 	}
-	// 	console.dir(allTrains.toString());
-	// })
+});
 
-	///////// Configure how to display data altered in firebase ////////
+database.ref().on("value", function(snapshot) {
+	
+	console.log("Entering on value function : "+JSON.stringify(snapshot.val()));
+	
+	// var updatedSnapshotData = {
+	// 	key : updatedSnapshot.key,
+	// 	value : updatedSnapshot.val()
+	// }
+
+	var json_data = snapshot.val();
+	allTrains = [];
+	for(var i in json_data) {
+		// var keyOfTrainAboutToBePushed = json_data [i][0];
+		// var updatedTrainsArray = allTrains.filter(item => item[0] !== keyOfTrainAboutToBePushed);
+		// allTrains = updatedTrainsArray;
+		allTrains.push([i, json_data [i]]);
+	}
+    
+
+
+
+	// var updatedTrainsArray = allTrains.filter(item => item.key !== updatedSnapshot.key);
+
+	// updatedTrainsArray.push(updatedSnapshotData);
+
+	// allTrains = updatedTrainsArray;
+
+	$("#tableBody").empty();
+	 allTrains.forEach(function(snapshotData) {
+    	updateUIWithData(snapshotData[1],snapshotData[0]);
+	 });
+
+
+	// var snapshotData = {
+	// 	key : childSnapshot.key,
+	// 	value : childSnapshot.val()
+	// }
+	// updateUIWithData(childSnapshot.val(), childSnapshot.key);
+	// if(! allTrains.some(item => item.key === childSnapshot.key)) {
+	// 	allTrains.push(snapshotData);
+	// }
 
 });
 
@@ -141,7 +174,6 @@ $("#tableBody").on("click", ".remove", function() {
 
 	database.ref("/"+currentKey).remove();
 
-	//////// call method to update UI //////
 });
 
 // To Do - 
@@ -168,21 +200,14 @@ $("#tableBody").on("click", ".edit", function() {
 	$(this).parent().parent().find(".update, .remove").show();
 });
 
-database.ref().on("child_added", function(childSnapshot) {
-	// console.log(childSnapshot.key);
-	console.log("Child snapshot "+JSON.stringify(childSnapshot.val()));
-	updateUIWithData(childSnapshot.val(), childSnapshot.key);
-	if(! allTrains.includes(childSnapshot)) {
-		allTrains.push(childSnapshot);
-	}
-});
+
 
 var interval = setInterval(updateUIEveryMinute, 60000);
 
 function updateUIEveryMinute() {
 	$("#tableBody").empty();
-	allTrains.forEach(function(snapshot) {
+	allTrains.forEach(function(snapshotData) {
 		// console.log(snapshot.key);
-    	updateUIWithData(snapshot.val(),snapshot.key);
+    	updateUIWithData(snapshotData[1],snapshotData[0]);
 	});
 }
