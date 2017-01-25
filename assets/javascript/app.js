@@ -13,6 +13,8 @@ var database = firebase.database();
 
 var allTrains = [];
 
+var interval;
+
 $("#firstTrainTime").on("blur", function() {
 	if($("#firstTrainTime").val() !== "") {
 		var regExp = new RegExp($("#firstTrainTime").attr('pattern'));
@@ -137,6 +139,8 @@ database.ref().on("value", function(snapshot) {
     	updateUIWithData(snapshotData[1],snapshotData[0]);
 	 });
 
+	 interval = setInterval(updateUIEveryMinute, 60000);
+
 });
 
 $("#tableBody").on("click", ".remove", function() {
@@ -163,11 +167,9 @@ $("#tableBody").on("click", ".edit", function() {
 	$(this).parent().parent().find("td> .arrivalTime").attr('type','time');
 	$(this).hide();
 	$(this).parent().parent().find(".update, .remove").show();
+	clearInterval(interval);
 });
 
-
-
-var interval = setInterval(updateUIEveryMinute, 60000);
 
 function updateUIEveryMinute() {
 	$("#tableBody").empty();
