@@ -76,6 +76,45 @@ $("#signInWithGithub").on("click", function(){
 	});
 });
 
+$("#signInWithGoogle").on("click", function(){
+	firebase.auth().signInWithPopup(provider).then(function(result) {
+	  	// This gives you a Google Access Token. You can use it to access the Google API.
+	  	var token = result.credential.accessToken;
+	  	// The signed-in user info.
+	  	var user = result.user;
+
+	  	
+		if (user != null) {
+		  user.providerData.forEach(function (profile) {
+		    console.log("Sign-in provider: "+profile.providerId);
+		    console.log("  Provider-specific UID: "+profile.uid);
+		    console.log("  Name: "+profile.displayName);
+		    userName = profile.displayName;
+		    console.log("  Email: "+profile.email);
+		    console.log("  Photo URL: "+profile.photoURL);
+		    profilePicSrc = profile.photoURL;
+		  });
+		}
+		$("#userName").html(userName);
+		$("#userPic").attr('src', profilePicSrc);
+
+	  $("#signOut, #welcomeName, #userPic").show();
+	  $("#signInWithGoogle, #signInWithGithub").hide();
+	  	// ...
+	}).catch(function(error) {
+	  	// Handle Errors here.
+	  	var errorCode = error.code;
+	  	var errorMessage = error.message;
+	  	// The email of the user's account used.
+	 	var email = error.email;
+	 	// The firebase.auth.AuthCredential type that was used.
+	 	var credential = error.credential;
+	  // ...
+	});
+
+});
+
+
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     console.log("Auth state changed.");
