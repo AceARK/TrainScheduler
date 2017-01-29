@@ -11,7 +11,9 @@ firebase.initializeApp(config);
 // Getting reference for firebase database
 var database = firebase.database();
 
-var provider = new firebase.auth.GithubAuthProvider();
+var githubProvider = new firebase.auth.GithubAuthProvider();
+
+var googleProvider = new firebase.auth.GoogleAuthProvider();
 
 var allTrains = [];
 
@@ -23,7 +25,7 @@ $("#signOut, #welcomeName, #userPic").hide();
 
 $("#signInWithGithub").on("click", function(){
 
-	firebase.auth().signInWithPopup(provider).then(function(result) {
+	firebase.auth().signInWithPopup(githubProvider).then(function(result) {
 		console.log("Entering sign in window.");
 	  // This gives you a GitHub Access Token. You can use it to access the GitHub API.
 	  token = result.credential.accessToken;
@@ -77,7 +79,7 @@ $("#signInWithGithub").on("click", function(){
 });
 
 $("#signInWithGoogle").on("click", function(){
-	firebase.auth().signInWithPopup(provider).then(function(result) {
+	firebase.auth().signInWithPopup(googleProvider).then(function(result) {
 	  	// This gives you a Google Access Token. You can use it to access the Google API.
 	  	var token = result.credential.accessToken;
 	  	// The signed-in user info.
