@@ -14,6 +14,8 @@
 	<script src="https://www.gstatic.com/firebasejs/3.6.6/firebase.js"></script>
 	<!-- Moment.js cdn -->
 	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+	<!-- Google font link -->
+	<link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Coda|Comfortaa|VT323|Wallpoet" rel="stylesheet">
 </head>
 <body>
 	<div class="container">
@@ -35,19 +37,26 @@
 			</div>
 		</div>
 		<div class="row">
+			<div class="col-xs-12">
+				<div id="marquee">
+					<h3 id="trainMessage">Stand By... Train Schedule Loading...</h3>
+				</div>
+			</div>
+		</div>
+		<div class="row">
 			<div class="col-sm-12">
 				<div class="panel panel-danger">
 				  	<div class="panel-heading">Current Train Schedule</div>
 				  	<div class="panel-body table-responsive">
 				    	<table class="table text-center" id="trainSchedule">
 				    		<thead>
-							    <tr class="text-center">
-							    	<th>Train Name</th>
-							        <th>Destination</th>
-							        <th>Frequency (min)</th>
-							        <th>Next Arrival</th>
-							        <th>Minutes Away</th>
-							        <th class="signedIn">Modify</th>
+							    <tr>
+							    	<th class="heading">Train Name</th>
+							        <th class="heading">Destination</th>
+							        <th class="heading">Frequency (min)</th>
+							        <th class="heading">Next Arrival</th>
+							        <th class="heading">Minutes Away</th>
+							        <th class="signedIn heading">Modify</th>
 							    </tr>
 							</thead>
 							<tbody id= "tableBody">

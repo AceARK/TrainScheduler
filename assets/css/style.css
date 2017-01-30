@@ -8,10 +8,21 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: 100% 100%;
+    font-family: 'Comfortaa', cursive;
+	/*font-family: 'Alfa Slab One', cursive;*/
+	/*font-family: 'Coda', cursive;*/
 }
 
 .panel {
 	background-color: rgba(255,255,255,0.95);
+}
+
+.panel-heading {
+	font-size: 18px;
+}
+
+th {
+	font-weight: 900;
 }
 
 .non-editable {
@@ -43,12 +54,13 @@ button: active {
 	height: 35px;
 } 
 
-#welcomeName, #userPic {
+#userPic {
 	margin: 5px;
 	margin-top: 10px;
 }
 
 #welcomeName {
+	margin: 5px;
 	margin-top: 25px;
 }
 
@@ -65,3 +77,35 @@ i {
 }
 
 
+#marquee {
+	height: 50px;	
+	overflow: hidden;
+	position: relative;
+	color: orange;
+	background-color: black;
+ 	margin-bottom: 15px;
+	/*font-family: 'Wallpoet', cursive;*/
+	font-family: 'VT323', monospace;
+}
+
+#trainMessage {
+	 position: absolute;
+	 width: 100%;
+	 height: 100%;
+	 margin: 0;
+	 font-size: 30px;
+	 line-height: 50px;
+	 animation: scrollText2 20s linear infinite;  /* Apply the animation */
+}
+
+/* Define the animation */
+@keyframes scrollText2 {
+  from {
+    margin-left: 100%;
+	width: 100%;
+  }
+  to {
+    margin-left: -100%;
+	width: 100%;
+  }
+}

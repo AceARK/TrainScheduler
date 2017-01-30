@@ -21,6 +21,10 @@ var interval;
 
 var userName, profilePicSrc;
 
+var trainMessageArray = [];
+
+var trainMessageIterator = 0;
+
 $("#signOut, #welcomeName, #userPic").hide();
 
 $("#signInWithGithub").on("click", function(){
@@ -59,53 +63,6 @@ $("#signInWithGithub").on("click", function(){
 
 	});
 });
-
-// $("#signInWithGoogle").on("click", function(){
-// 	firebase.auth().signInWithPopup(googleProvider).then(function(result) {
-// 	  	// This gives you a Google Access Token. You can use it to access the Google API.
-// 	  	var token = result.credential.accessToken;
-// 	  	// The signed-in user info.
-// 	  	var user = result.user;
-
-	  	
-// 		if (user != null) {
-// 		  user.providerData.forEach(function (profile) {
-// 		    console.log("Sign-in provider: "+profile.providerId);
-// 		    console.log("  Provider-specific UID: "+profile.uid);
-// 		    console.log("  Name: "+profile.displayName);
-// 		    userName = profile.displayName;
-// 		    console.log("  Email: "+profile.email);
-// 		    console.log("  Photo URL: "+profile.photoURL);
-// 		    profilePicSrc = profile.photoURL;
-// 		  });
-// 		}
-// 		$("#userName").html(userName);
-// 		$("#userPic").attr('src', profilePicSrc);
-
-// 	  $("#signOut, #welcomeName, #userPic").show();
-// 	  $("#signInWithGoogle, #signInWithGithub").hide();
-// 	  	// ...
-// 	}).catch(function(error) {
-// 	  	// Handle Errors here.
-// 	  	var errorCode = error.code;
-// 	  	var errorMessage = error.message;
-// 	  	// The email of the user's account used.
-// 	 	var email = error.email;
-// 	 	// The firebase.auth.AuthCredential type that was used.
-// 	 	var credential = error.credential;
-// 	  // ...
-// 	});
-
-// });
-
-
-// firebase.auth().onAuthStateChanged(function(user) {
-//   if (user) {
-//     console.log("Auth state changed.");
-//   } else {
-//     console.log("Auth state not changed.")
-//   }
-// });
 
 $("#signOut").on("click", function() {
 	firebase.auth().signOut()
@@ -215,6 +172,7 @@ function updateUIWithData(childSnapshotVal,key) {
 		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='signedIn edit btn btn-danger'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button><button type='submit' class='update btn btn-danger'><i class='fa fa-check' aria-hidden='true'></i>Update</button><button type='submit' class='remove btn btn-danger'><i class='fa fa-trash' aria-hidden='true'></i>Remove</button><button class='undoEditClick btn btn-danger'><i class='fa fa-undo' aria-hidden='true'></i></button></td></tr>");
 		$("td> input").attr('disabled', true).addClass('non-editable');
 		$(".update, .remove, .undoEditClick").hide();
+		trainMessageArray.push("<span>"+ trainName + " bound for " + destination + " will be arriving at " + moment(nextArrivalTime).format("hh:mm A") + " on Platform number " + Math.floor(Math.random()*4 + 1) + ". </span>");
 }
 
 $("#tableBody").on("click", ".update", function() {
@@ -243,7 +201,6 @@ database.ref().on("value", function(snapshot) {
 		allTrains.push([i, json_data [i]]);
 	}
 
-
 	$("#tableBody").empty();
 	 allTrains.forEach(function(snapshotData) {
     	updateUIWithData(snapshotData[1],snapshotData[0]);
@@ -259,12 +216,6 @@ $("#tableBody").on("click", ".remove", function() {
 	database.ref("/"+currentKey).remove();
 
 });
-
-// To Do -
-// Change alert to something else (modal etc)
-// Authentication of accounts. 
-// Admin users sign in using Github/Google. Other users cannot edit/add trains.
-
 
 $("#tableBody").on("click", ".edit", function() {
 	console.log("Entering Edit button click function.");
@@ -291,4 +242,23 @@ function updateUIEveryMinute() {
 	allTrains.forEach(function(snapshotData) {
     	updateUIWithData(snapshotData[1],snapshotData[0]);
 	});
+}
+generateMarquee();
+
+function generateMarquee() {
+	$("#trainMessage").html(trainMessageArray[0]);
+	console.log(trainMessageArray.toString());
+	setInterval(generateMarqeeText, 20000);
+}
+
+function generateMarqeeText() {
+	console.log("inside marqee generator");
+	$("#trainMessage").html(trainMessageArray[trainMessageIterator]);
+	if(trainMessageIterator !== trainMessageArray.length) {
+		console.log("here incrementing");
+		++trainMessageIterator;
+	}else {
+		trainMessageIterator = 0;
+		console.log("here resetting");
+	}
 }
