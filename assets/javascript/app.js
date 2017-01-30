@@ -11,9 +11,9 @@ firebase.initializeApp(config);
 // Getting reference for firebase database
 var database = firebase.database();
 
-// var githubProvider = new firebase.auth.GithubAuthProvider();
+var githubProvider = new firebase.auth.GithubAuthProvider();
 
-var provider = new firebase.auth.GoogleAuthProvider();
+// var googleProvider = new firebase.auth.GoogleAuthProvider();
 
 var allTrains = [];
 
@@ -21,22 +21,24 @@ var interval;
 
 var userName, profilePicSrc;
 
+var user;
+
 var trainMessageArray = [];
 
 var trainMessageIterator = 0;
 
 $("#signOut, #welcomeName, #userPic").hide();
 
-$("#signInWithGoogle").on("click", function(){
+$("#signInWithGithub").on("click", function(){
 
-	firebase.auth().signInWithPopup(provider)
+	firebase.auth().signInWithPopup(githubProvider)
 
 	.then(function(result) {
 		console.log("Entering sign in window.");
 	  	// This gives you a GitHub Access Token. You can use it to access the GitHub API.
 		var token = result.credential.accessToken;
 		// The signed-in user info.
-		var user = result.user;
+		user = result.user;
 
 		console.log("token - "+token);
 		
@@ -65,9 +67,6 @@ $("#signInWithGoogle").on("click", function(){
 });
 
 $("#signOut").on("click", function() {
-
-	Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback();
-    });
 	firebase.auth().signOut()
 
 	.then(function() {
@@ -83,7 +82,7 @@ $("#signOut").on("click", function() {
 	$("#userPic").attr('src', "");
 	$("#signOut, #welcomeName, #userPic").hide();
 	$("#signInWithGoogle, #signInWithGithub").show();
-	userName = "";
+	user = null;
 })
 
 $("#firstTrainTime").on("blur", function() {
@@ -176,7 +175,7 @@ function updateUIWithData(childSnapshotVal,key) {
 		$("td> input").attr('disabled', true).addClass('non-editable');
 		$(".update, .remove, .undoEditClick").hide();
 		trainMessageArray.push("<span>"+ trainName + " bound for " + destination + " will be arriving at " + moment(nextArrivalTime).format("hh:mm A") + " on Platform number " + Math.floor(Math.random()*4 + 1) + ". </span>");
-		  if (firebase.auth().currentUser !== null) {
+		  if (user !== null) {
 			    // Show hidden buttons/ panel
 			    $("#newTrainAdditionPanel").show();
 				$(".signedIn").show();
