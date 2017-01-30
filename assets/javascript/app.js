@@ -173,6 +173,18 @@ function updateUIWithData(childSnapshotVal,key) {
 		$("td> input").attr('disabled', true).addClass('non-editable');
 		$(".update, .remove, .undoEditClick").hide();
 		trainMessageArray.push("<span>"+ trainName + " bound for " + destination + " will be arriving at " + moment(nextArrivalTime).format("hh:mm A") + " on Platform number " + Math.floor(Math.random()*4 + 1) + ". </span>");
+
+		firebase.auth().onAuthStateChanged(function(user) {
+		  if (user) {
+			    // Show hidden buttons/ panel
+			    $("#newTrainAdditionPanel").show();
+				$(".signedIn").show();
+		  	} else {
+			    // Hide buttons/ panel
+			    $("#newTrainAdditionPanel").hide();
+				$(".signedIn").hide();
+		  	}
+		});
 }
 
 $("#tableBody").on("click", ".update", function() {
