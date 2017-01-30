@@ -21,6 +21,8 @@ var interval;
 
 var userName, profilePicSrc;
 
+$('[data-toggle="tooltip"]').tooltip(); 
+
 $("#signOut, #welcomeName, #userPic").hide();
 
 $("#signInWithGithub").on("click", function(){
@@ -35,41 +37,24 @@ $("#signInWithGithub").on("click", function(){
 		var user = result.user;
 
 		console.log("token - "+token);
-		  // console.log("user - " + JSON.stringify(user));
-		  // Observer on Auth to see if user has really been signed in
-		  // var user = firebase.auth().currentUser;
-
-		// Getting provider-specific user info
-
-		// if (user != null) {
-		//   user.providerData.forEach(function (profile) {
-		//     console.log("Sign-in provider: "+profile.providerId);
-		//     console.log("  Provider-specific UID: "+profile.uid);
-		//     console.log("  Name: "+profile.displayName);
-		//     userName = profile.displayName;
-		//     console.log("  Email: "+profile.email);
-		//     console.log("  Photo URL: "+profile.photoURL);
-		//     profilePicSrc = profile.photoURL;
-		//   });
-		// }
+		 
 		$("#userName").html(user.displayName);
 		$("#userPic").attr('src', user.photoURL);
 
-	  $("#signOut, #welcomeName, #userPic").show();
-	  $("#signInWithGoogle, #signInWithGithub").hide();
+		$("#signOut, #welcomeName, #userPic").show();
+		$("#signInWithGoogle, #signInWithGithub").hide();
 
 	  // ...
 	}).catch(function(error) {
 		console.log("Entering error sign in.");
-
-	  // Handle Errors here.
-	  var errorCode = error.code;
-	  var errorMessage = error.message;
-	  // The email of the user's account used.
-	  var email = error.email;
-	  // The firebase.auth.AuthCredential type that was used.
-	  var credential = error.credential;
-	  console.log("Error - " + errorCode + "  " + errorMessage + "  " + email + "  " + credential);
+		// Handle Errors here.
+		var errorCode = error.code;
+		var errorMessage = error.message;
+		// The email of the user's account used.
+		var email = error.email;
+		// The firebase.auth.AuthCredential type that was used.
+		var credential = error.credential;
+		console.log("Error - " + errorCode + "  " + errorMessage + "  " + email + "  " + credential);
 
 	});
 });
@@ -123,17 +108,12 @@ $("#signInWithGithub").on("click", function(){
 
 $("#signOut").on("click", function() {
 	firebase.auth().signOut().then(function() {
-		// firebase.auth().currentUser === null;
-		// console.log(token);
-		// token === "";
-		// console.log(token);
 		console.log(firebase.auth().currentUser);
-	  alert("Signed out successfully.");
-	}, function(error) {
-	  console.log("Error signing out.");
+	  	alert("Signed out successfully.");
+	},function(error) {
+	  	console.log("Error signing out.");
 	});
 
-	console.log("UserName " +user.displayName + " signed out.");
 	$("#userName").html("");
 	$("#userPic").attr('src', "");
 	$("#signOut, #welcomeName, #userPic").hide();
@@ -227,7 +207,7 @@ function updateUIWithData(childSnapshotVal,key) {
 		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
 
-		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='edit btn btn-danger'>Edit</button><button type='submit' class='update btn btn-danger'>Update</button><button type='submit' class='remove btn btn-danger'>Remove</button><button class='undoEditClick btn btn-danger'>x</button></td></tr>");
+		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='edit btn btn-danger'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button><button type='submit' class='update btn btn-danger'><i class='fa fa-check' aria-hidden='true'></i>Update</button><button type='submit' class='remove btn btn-danger'><i class='fa fa-trash' aria-hidden='true'></i>Remove</button><button class='undoEditClick btn btn-danger'><i class='fa fa-undo' aria-hidden='true'></i></button></td></tr>");
 		$("td> input").attr('disabled', true).addClass('non-editable');
 		$(".update, .remove, .undoEditClick").hide();
 }
