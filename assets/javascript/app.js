@@ -175,7 +175,7 @@ function updateUIWithData(childSnapshotVal,key) {
 		trainMessageArray.push("<span>"+ trainName + " bound for " + destination + " will be arriving at " + moment(nextArrivalTime).format("hh:mm A") + " on Platform number " + Math.floor(Math.random()*4 + 1) + ". </span>");
 
 		firebase.auth().onAuthStateChanged(function(user) {
-		  if (user) {
+		  if (firebase.auth().currentUser !== null) {
 			    // Show hidden buttons/ panel
 			    $("#newTrainAdditionPanel").show();
 				$(".signedIn").show();
