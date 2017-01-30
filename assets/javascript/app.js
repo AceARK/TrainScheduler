@@ -13,15 +13,13 @@ var database = firebase.database();
 
 var githubProvider = new firebase.auth.GithubAuthProvider();
 
-var googleProvider = new firebase.auth.GoogleAuthProvider();
+// var googleProvider = new firebase.auth.GoogleAuthProvider();
 
 var allTrains = [];
 
 var interval;
 
 var userName, profilePicSrc;
-
-$('[data-toggle="tooltip"]').tooltip(); 
 
 $("#signOut, #welcomeName, #userPic").hide();
 
@@ -37,7 +35,10 @@ $("#signInWithGithub").on("click", function(){
 		var user = result.user;
 
 		console.log("token - "+token);
-		 
+		
+		$("#newTrainAdditionPanel").show();
+		$(".edit").show();
+
 		$("#userName").html(user.displayName);
 		$("#userPic").attr('src', user.photoURL);
 
@@ -207,7 +208,7 @@ function updateUIWithData(childSnapshotVal,key) {
 		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
 
-		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='edit btn btn-danger'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button><button type='submit' class='update btn btn-danger'><i class='fa fa-check' aria-hidden='true'></i>Update</button><button type='submit' class='remove btn btn-danger'><i class='fa fa-trash' aria-hidden='true'></i>Remove</button><button class='undoEditClick btn btn-danger'><i class='fa fa-undo' aria-hidden='true'></i></button></td></tr>");
+		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='signedIn edit btn btn-danger'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button><button type='submit' class='update btn btn-danger'><i class='fa fa-check' aria-hidden='true'></i>Update</button><button type='submit' class='remove btn btn-danger'><i class='fa fa-trash' aria-hidden='true'></i>Remove</button><button class='undoEditClick btn btn-danger'><i class='fa fa-undo' aria-hidden='true'></i></button></td></tr>");
 		$("td> input").attr('disabled', true).addClass('non-editable');
 		$(".update, .remove, .undoEditClick").hide();
 }

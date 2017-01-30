@@ -59,3 +59,9 @@ i {
 .undoEditClick> i {
 	margin-right: 0px;
 }
+
+#newTrainAdditionPanel, .signedIn {
+	display: none;
+}
+
+
