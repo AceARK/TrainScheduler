@@ -66,8 +66,7 @@ $("#signInWithGoogle").on("click", function(){
 
 $("#signOut").on("click", function() {
 
-	Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> {
-        mFirebaseAuth.signOut();
+	Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback();
     });
 	firebase.auth().signOut()
 
