@@ -88,7 +88,7 @@ $("#signOut").on("click", function() {
 $("#firstTrainTime").on("blur", function() {
 	if($("#firstTrainTime").val() !== "") {
 		var regExp = new RegExp($("#firstTrainTime").attr('pattern'));
-		var value = $("#firstTrainTime").val();
+		var value = $("#firstTrainTime").val().trim();
 		if(!regExp.test(value)) {
 			$(this).addClass("remove-default").addClass("wrong-format");
 		}else {
@@ -105,7 +105,7 @@ $("#addTrain").on("click", function(event) {
 	event.preventDefault();
 
 	var regExp = new RegExp($("#firstTrainTime").attr('pattern'));
-	var value = $("#firstTrainTime").val();
+	var value = $("#firstTrainTime").val().trim();
 	if(!regExp.test(value)) {
 		$("#firstTrainTime").toggleClass("wrong-format");
 		alert("Wrong format entered. Enter HH:mm military format.");
