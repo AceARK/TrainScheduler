@@ -27,7 +27,6 @@ $("#signInWithGithub").on("click", function(){
 
 	firebase.auth().signInWithPopup(githubProvider)
 
-	
 	.then(function(result) {
 		console.log("Entering sign in window.");
 	  	// This gives you a GitHub Access Token. You can use it to access the GitHub API.
@@ -36,25 +35,25 @@ $("#signInWithGithub").on("click", function(){
 		var user = result.user;
 
 		console.log("token - "+token);
-		  console.log("user - " + JSON.stringify(user));
+		  // console.log("user - " + JSON.stringify(user));
 		  // Observer on Auth to see if user has really been signed in
-		  var user = firebase.auth().currentUser;
+		  // var user = firebase.auth().currentUser;
 
 		// Getting provider-specific user info
 
-		if (user != null) {
-		  user.providerData.forEach(function (profile) {
-		    console.log("Sign-in provider: "+profile.providerId);
-		    console.log("  Provider-specific UID: "+profile.uid);
-		    console.log("  Name: "+profile.displayName);
-		    userName = profile.displayName;
-		    console.log("  Email: "+profile.email);
-		    console.log("  Photo URL: "+profile.photoURL);
-		    profilePicSrc = profile.photoURL;
-		  });
-		}
-		$("#userName").html(userName);
-		$("#userPic").attr('src', profilePicSrc);
+		// if (user != null) {
+		//   user.providerData.forEach(function (profile) {
+		//     console.log("Sign-in provider: "+profile.providerId);
+		//     console.log("  Provider-specific UID: "+profile.uid);
+		//     console.log("  Name: "+profile.displayName);
+		//     userName = profile.displayName;
+		//     console.log("  Email: "+profile.email);
+		//     console.log("  Photo URL: "+profile.photoURL);
+		//     profilePicSrc = profile.photoURL;
+		//   });
+		// }
+		$("#userName").html(user.displayName);
+		$("#userPic").attr('src', user.photoURL);
 
 	  $("#signOut, #welcomeName, #userPic").show();
 	  $("#signInWithGoogle, #signInWithGithub").hide();
