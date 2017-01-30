@@ -124,16 +124,16 @@ $("#signInWithGithub").on("click", function(){
 $("#signOut").on("click", function() {
 	firebase.auth().signOut().then(function() {
 		// firebase.auth().currentUser === null;
-		console.log(token);
-		token === "";
-		console.log(token);
+		// console.log(token);
+		// token === "";
+		// console.log(token);
 		console.log(firebase.auth().currentUser);
 	  alert("Signed out successfully.");
 	}, function(error) {
 	  console.log("Error signing out.");
 	});
 
-	console.log("UserName " +userName + " signed out.");
+	console.log("UserName " +user.displayName + " signed out.");
 	$("#userName").html("");
 	$("#userPic").attr('src', "");
 	$("#signOut, #welcomeName, #userPic").hide();
