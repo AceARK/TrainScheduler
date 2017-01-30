@@ -9,8 +9,15 @@ body {
     -o-background-size: cover;
     background-size: 100% 100%;
     font-family: 'Comfortaa', cursive;
-	/*font-family: 'Alfa Slab One', cursive;*/
-	/*font-family: 'Coda', cursive;*/
+}
+
+h1, h4 {
+	font-weight: 900;
+	/*font-family: 'Patua One', cursive;*/
+}
+
+.title {
+	margin-bottom: 45px;
 }
 
 .panel {
@@ -52,11 +59,9 @@ button: active {
 #userPic {
 	width: 35px;
 	height: 35px;
-} 
-
-#userPic {
 	margin: 5px;
 	margin-top: 10px;
+	border: 3px solid white;
 }
 
 #welcomeName {
@@ -84,7 +89,6 @@ i {
 	color: orange;
 	background-color: black;
  	margin-bottom: 15px;
-	/*font-family: 'Wallpoet', cursive;*/
 	font-family: 'VT323', monospace;
 }
 
