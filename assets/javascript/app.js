@@ -11,9 +11,9 @@ firebase.initializeApp(config);
 // Getting reference for firebase database
 var database = firebase.database();
 
-var githubProvider = new firebase.auth.GithubAuthProvider();
+// var githubProvider = new firebase.auth.GithubAuthProvider();
 
-// var googleProvider = new firebase.auth.GoogleAuthProvider();
+var provider = new firebase.auth.GoogleAuthProvider();
 
 var allTrains = [];
 
@@ -27,9 +27,9 @@ var trainMessageIterator = 0;
 
 $("#signOut, #welcomeName, #userPic").hide();
 
-$("#signInWithGithub").on("click", function(){
+$("#signInWithGoogle").on("click", function(){
 
-	firebase.auth().signInWithPopup(githubProvider)
+	firebase.auth().signInWithPopup(provider)
 
 	.then(function(result) {
 		console.log("Entering sign in window.");
@@ -65,6 +65,10 @@ $("#signInWithGithub").on("click", function(){
 });
 
 $("#signOut").on("click", function() {
+
+	Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(status -> {
+        mFirebaseAuth.signOut();
+    });
 	firebase.auth().signOut()
 
 	.then(function() {
