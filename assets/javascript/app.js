@@ -37,7 +37,7 @@ $("#signInWithGithub").on("click", function(){
 		console.log("token - "+token);
 		
 		$("#newTrainAdditionPanel").show();
-		$(".edit").show();
+		$(".signedIn").show();
 
 		$("#userName").html(user.displayName);
 		$("#userPic").attr('src', user.photoURL);
@@ -108,8 +108,12 @@ $("#signInWithGithub").on("click", function(){
 // });
 
 $("#signOut").on("click", function() {
-	firebase.auth().signOut().then(function() {
+	firebase.auth().signOut()
+
+	.then(function() {
 		console.log(firebase.auth().currentUser);
+		$("#newTrainAdditionPanel").hide();
+		$(".signedIn").hide();
 	  	alert("Signed out successfully.");
 	},function(error) {
 	  	console.log("Error signing out.");
