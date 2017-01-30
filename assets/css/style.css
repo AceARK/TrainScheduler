@@ -56,17 +56,16 @@ button: active {
 	outline : 0 1px 1px rgba(0, 0, 0, 0.0), 0 0 7px rgba(255, 140, 140, 1);
 }
 
+#welcomeName {
+	margin: 5px;
+	padding-top: 30px;
+}
+
 #userPic {
 	width: 35px;
 	height: 35px;
 	margin: 5px;
-	margin-top: 10px;
 	border: 3px solid white;
-}
-
-#welcomeName {
-	margin: 5px;
-	margin-top: 25px;
 }
 
 i {
