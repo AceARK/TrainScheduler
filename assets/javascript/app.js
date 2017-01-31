@@ -124,7 +124,8 @@ $("#addTrain").on("click", function(event) {
 			trainName: trainName,
 			destination: destination,
 			startTime: startTime,
-			frequency: frequency
+			frequency: frequency,
+			updatedTime: ""
 		};
 
 		// Adding information to database
@@ -157,6 +158,7 @@ function updateUIWithData(childSnapshotVal,key) {
 		// Ensuring that the start time has not passed by
 		var startTime = childSnapshotVal.startTime;
 
+
 		var startTimeCalculated = moment(startTime, "HH:mm").subtract(1, "years");
 
 		// // Getting current time
@@ -170,6 +172,11 @@ function updateUIWithData(childSnapshotVal,key) {
 		var minutesToArrival = frequency - moduloRemainder;
 		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
+		
+		if(childSnapshotVal.updatedTime !== "") {
+			nextArrivalTime = moment(childSnapshotVal.updatedTime).format("HH:mm");
+			minutesToArrival = moment().diff(moment(nextArrivalTime), "minutes");
+		}
 
 		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='signedIn edit btn btn-danger'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button><button type='submit' class='update btn btn-danger'><i class='fa fa-check' aria-hidden='true'></i>Update</button><button type='submit' class='remove btn btn-danger'><i class='fa fa-trash' aria-hidden='true'></i>Remove</button><button class='undoEditClick btn btn-danger'><i class='fa fa-undo' aria-hidden='true'></i></button></td></tr>");
 		$("td> input").attr('disabled', true).addClass('non-editable');
@@ -195,7 +202,8 @@ $("#tableBody").on("click", ".update", function() {
 	var dataUpdates = {
 		trainName: updatedTrainName,
 		destination: updatedDestination,
-		startTime: updatedArrivalTime
+		// startTime: startTime,
+		updatedTime: updatedArrivalTime
 	}
 
 	database.ref("/"+currentKey).update(dataUpdates);
