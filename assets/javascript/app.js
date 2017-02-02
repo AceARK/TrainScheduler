@@ -174,8 +174,8 @@ function updateUIWithData(childSnapshotVal,key) {
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
 
 		if(childSnapshotVal.updatedTime !== "") {
-			nextArrivalTime = moment(childSnapshotVal.updatedTime).format("HH:mm");
-			minutesToArrival = moment().diff(moment(nextArrivalTime), "minutes");
+			nextArrivalTime = moment(childSnapshotVal.updatedTime, "HH:mm");
+			minutesToArrival = Math.abs(moment().diff(moment(nextArrivalTime), "minutes"));
 		}
 
 		$("#tableBody").append("<tr id='"+ key +"'><td><input type='text' class='name' value='" + trainName + "'></td><td><input type='text' class='destination' value='" + destination + "'></td><td>" + frequency + "</td><td><input type='text' class='arrivalTime' value='" + moment(nextArrivalTime).format("hh:mm A") + "'></td><td>" + minutesToArrival + "</td><td><button type='submit' class='signedIn edit btn btn-danger'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button><button type='submit' class='update btn btn-danger'><i class='fa fa-check' aria-hidden='true'></i>Update</button><button type='submit' class='remove btn btn-danger'><i class='fa fa-trash' aria-hidden='true'></i>Remove</button><button class='undoEditClick btn btn-danger'><i class='fa fa-undo' aria-hidden='true'></i></button></td></tr>");
@@ -198,6 +198,8 @@ $("#tableBody").on("click", ".update", function() {
 	var updatedTrainName = $(this).parent().parent().find("td> .name").val();
 	var updatedDestination = $(this).parent().parent().find("td> .destination").val();
 	var updatedArrivalTime = $(this).parent().parent().find("td> .arrivalTime").val();
+
+	console.log("Updated arrival time "+updatedArrivalTime);
 
 	var dataUpdates = {
 		trainName: updatedTrainName,
@@ -264,12 +266,14 @@ function updateUIEveryMinute() {
 }
 generateMarquee();
 
+// Function to call marquee text every 20 secs
 function generateMarquee() {
 	$("#trainMessage").html(trainMessageArray[0]);
 	console.log(trainMessageArray.toString());
 	setInterval(generateMarqeeText, 20000);
 }
 
+// Function that generates marquee text
 function generateMarqeeText() {
 	console.log("inside marqee generator");
 	$("#trainMessage").html(trainMessageArray[trainMessageIterator]);
