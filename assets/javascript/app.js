@@ -172,7 +172,7 @@ function updateUIWithData(childSnapshotVal,key) {
 		var minutesToArrival = frequency - moduloRemainder;
 		
 		var nextArrivalTime = moment().add(minutesToArrival, "minutes");
-		
+
 		if(childSnapshotVal.updatedTime !== "") {
 			nextArrivalTime = moment(childSnapshotVal.updatedTime).format("HH:mm");
 			minutesToArrival = moment().diff(moment(nextArrivalTime), "minutes");
