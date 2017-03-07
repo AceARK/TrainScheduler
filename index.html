@@ -25,7 +25,7 @@
 					<div class="col-sm-3 col-sm-offset-9">
 						<button class="btn btn-success" id="signInWithGithub" data-toggle="tooltip" title="Sign in with Github"><i class="fa fa-github fa-lg" aria-hidden="true"></i> Sign In to Edit</button>
 						<span id="welcomeName">Welcome <span id="userName"></span>!</span><img id="userPic">
-						<button class="btn btn-danger" id="signOut" data-toggle="tooltip" title="Sign in with Google"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out</button>
+						<button class="btn btn-danger" id="signOut" data-toggle="modal" data-target="notificationModal" data-toggle="tooltip" title="Sign out"><i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out</button>
 					</div>
 				</div>
 				<div class="row">
@@ -66,6 +66,21 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog">
+		  	<div class="modal-dialog" role="document">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        		<h4 class="modal-title">Train Scheduler App Notification</h4>
+		      		</div>
+		     		<div class="modal-body"></div>
+		      		<div class="modal-footer">
+		        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      		</div>
+		    	</div><!-- /.modal-content -->
+		  	</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 		
 		<div class="row">
 			<div class="col-sm-12">
@@ -89,7 +104,7 @@
 							    <label for="frequency">Frequency (min)</label>
 							    <input type="text" class="form-control" id="frequency" required/>
 							</div>
-							<button type="submit" id="addTrain" class="btn btn-danger"><i class="fa fa-plus" aria-hidden="true"></i>Add Train</button>
+							<button type="submit" id="addTrain" data-toggle="modal" data-target="notificationModal" class="btn btn-danger"><i class="fa fa-plus" aria-hidden="true"></i>Add Train</button>
 						</form>
 					</div>
 				</div>

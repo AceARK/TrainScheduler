@@ -34,13 +34,10 @@ $("#signInWithGithub").on("click", function(){
 	firebase.auth().signInWithPopup(githubProvider)
 
 	.then(function(result) {
-		console.log("Entering sign in window.");
 	  	// This gives you a GitHub Access Token. You can use it to access the GitHub API.
 		var token = result.credential.accessToken;
 		// The signed-in user info.
 		user = result.user;
-
-		console.log("token - "+token);
 		
 		$("#newTrainAdditionPanel").show();
 		$(".signedIn").show();
@@ -53,7 +50,6 @@ $("#signInWithGithub").on("click", function(){
 
 	  // ...
 	}).catch(function(error) {
-		console.log("Entering error sign in.");
 		// Handle Errors here.
 		var errorCode = error.code;
 		var errorMessage = error.message;
@@ -73,7 +69,8 @@ $("#signOut").on("click", function() {
 		console.log(firebase.auth().currentUser);
 		$("#newTrainAdditionPanel").hide();
 		$(".signedIn").hide();
-	  	alert("Signed out successfully.");
+	  	// alert("Signed out successfully.");
+	  	$(".modal-body").html("Signed out successfully");
 	},function(error) {
 	  	console.log("Error signing out.");
 	});
@@ -108,7 +105,7 @@ $("#addTrain").on("click", function(event) {
 	var value = $("#firstTrainTime").val().trim();
 	if(!regExp.test(value)) {
 		$("#firstTrainTime").toggleClass("wrong-format");
-		alert("Wrong format entered. Enter HH:mm military format.");
+		$(".modal-body").html("Wrong format entered. Enter HH:mm military format.");
 		return;
 	}else {
 
@@ -117,7 +114,6 @@ $("#addTrain").on("click", function(event) {
 		var destination = $("#destination").val().trim();
 		var startTime = $("#firstTrainTime").val().trim();
 		var frequency = $("#frequency").val().trim();
-		console.log("Data captured from input field " +trainName + destination + startTime + frequency);
 
 		// Creating an object with variables
 		var newTrain = {
@@ -131,14 +127,8 @@ $("#addTrain").on("click", function(event) {
 		// Adding information to database
 		database.ref().push(newTrain);
 
-		console.log("New Train Details");
-		console.log(newTrain.trainName);
-		console.log(newTrain.destination);
-		console.log(newTrain.startTime);
-		console.log(newTrain.frequency);
-
 		// Inform user of new train addition
-		alert("New train successfully added");
+		$(".modal-body").html("New train successfully added");
 
 		// Clear all input fields 
 		$("#trainName").val("");
@@ -199,8 +189,6 @@ $("#tableBody").on("click", ".update", function() {
 	var updatedDestination = $(this).parent().parent().find("td> .destination").val();
 	var updatedArrivalTime = $(this).parent().parent().find("td> .arrivalTime").val();
 
-	console.log("Updated arrival time "+updatedArrivalTime);
-
 	var dataUpdates = {
 		trainName: updatedTrainName,
 		destination: updatedDestination,
@@ -213,8 +201,6 @@ $("#tableBody").on("click", ".update", function() {
 });
 
 database.ref().on("value", function(snapshot) {
-	
-	console.log("Entering on value function : "+JSON.stringify(snapshot.val()));
 
 	var json_data = snapshot.val();
 	allTrains = [];
@@ -239,11 +225,8 @@ $("#tableBody").on("click", ".remove", function() {
 });
 
 $("#tableBody").on("click", ".edit", function() {
-	console.log("Entering Edit button click function.");
 	var currentArrivalTime = $(this).parent().parent().find("td> .arrivalTime").val();
-	console.log("Finding parent of parent of this " + $(this).parent().parent().find("td> input"));
 	$(this).parent().parent().find("td> input").attr('disabled', false).removeClass('non-editable');
-	console.log(moment(currentArrivalTime, "HH:mm A").format("HH:mm:ss"));
 	formattedToDisplayTime = moment(currentArrivalTime, "HH:mm A").format("HH:mm");
 	$(this).parent().parent().find("td> .arrivalTime").attr('value', formattedToDisplayTime);
 	$(this).parent().parent().find("td> .arrivalTime").attr('type','time');
@@ -269,19 +252,15 @@ generateMarquee();
 // Function to call marquee text every 20 secs
 function generateMarquee() {
 	$("#trainMessage").html(trainMessageArray[0]);
-	console.log(trainMessageArray.toString());
 	setInterval(generateMarqeeText, 20000);
 }
 
 // Function that generates marquee text
 function generateMarqeeText() {
-	console.log("inside marqee generator");
 	$("#trainMessage").html(trainMessageArray[trainMessageIterator]);
 	if(trainMessageIterator !== trainMessageArray.length) {
-		console.log("here incrementing");
 		++trainMessageIterator;
 	}else {
 		trainMessageIterator = 0;
-		console.log("here resetting");
 	}
 }
