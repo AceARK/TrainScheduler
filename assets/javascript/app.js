@@ -71,7 +71,7 @@ $("#signOut").on("click", function() {
 		$(".signedIn").hide();
 	  	// alert("Signed out successfully.");
 	  	$(".modal-body").html("Signed out successfully");
-	  	$(".modal").toggle();
+	  	$('#notificationModal').modal('show');
 	},function(error) {
 	  	console.log("Error signing out.");
 	});
@@ -82,6 +82,10 @@ $("#signOut").on("click", function() {
 	$("#signInWithGoogle, #signInWithGithub").show();
 	user = null;
 })
+
+$('#notificationModal').on('shown.bs.modal', function() {
+    $('#myInput').focus()
+});
 
 $("#firstTrainTime").on("blur", function() {
 	if($("#firstTrainTime").val() !== "") {
