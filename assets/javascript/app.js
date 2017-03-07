@@ -71,6 +71,7 @@ $("#signOut").on("click", function() {
 		$(".signedIn").hide();
 	  	// alert("Signed out successfully.");
 	  	$(".modal-body").html("Signed out successfully");
+	  	$(".modal").toggle();
 	},function(error) {
 	  	console.log("Error signing out.");
 	});
@@ -106,6 +107,7 @@ $("#addTrain").on("click", function(event) {
 	if(!regExp.test(value)) {
 		$("#firstTrainTime").toggleClass("wrong-format");
 		$(".modal-body").html("Wrong format entered. Enter HH:mm military format.");
+		$(".modal").toggle();
 		return;
 	}else {
 
@@ -129,6 +131,7 @@ $("#addTrain").on("click", function(event) {
 
 		// Inform user of new train addition
 		$(".modal-body").html("New train successfully added");
+		$(".modal").toggle();
 
 		// Clear all input fields 
 		$("#trainName").val("");
