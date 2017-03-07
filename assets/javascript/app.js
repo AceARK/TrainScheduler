@@ -111,7 +111,7 @@ $("#addTrain").on("click", function(event) {
 	if(!regExp.test(value)) {
 		$("#firstTrainTime").toggleClass("wrong-format");
 		$(".modal-body").html("Wrong format entered. Enter HH:mm military format.");
-		$(".modal").toggle();
+		$('#notificationModal').modal('show');
 		return;
 	}else {
 
@@ -135,8 +135,7 @@ $("#addTrain").on("click", function(event) {
 
 		// Inform user of new train addition
 		$(".modal-body").html("New train successfully added");
-		$(".modal").toggle();
-
+		$('#notificationModal').modal('show');
 		// Clear all input fields 
 		$("#trainName").val("");
 		$("#destination").val("");
